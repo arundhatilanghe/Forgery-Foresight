@@ -12,7 +12,7 @@ The forgery detection tool contained in this repository currently features foren
 - Error Level Analysis
 - Image Extraction
 - String Extraction
-- For More Detail - [Research Paper](https://journals.grdpublications.com/index.php/ijprse/article/view/537/507)
+- For More Detail - [Research Paper](https://www.jetir.org/papers/JETIR2504B38.pdf)
 
 ## To Run:
 <!-- Place any(JPEG) images that you wish to analyze into the **image** folder Present in the Project directory. -->
