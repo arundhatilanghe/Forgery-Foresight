@@ -131,7 +131,7 @@ def copy_move_forgery():
         resultPanel.image = img
 
         # Display results in resultLabel
-        resultLabel.configure(text="Image Forged", foreground="red")
+        resultLabel.configure(text="Forged Image", foreground="red")
         # cv2.imshow('Original image', detect.image)
         cv2.imshow('Forgery', forgery)
         wait_time = 1000
@@ -173,7 +173,7 @@ def metadata_analysis():
         resultPanel.image = img
 
         # Display results in resultLabel
-        resultLabel.configure(text="NO Data Found", foreground="red")
+        resultLabel.configure(text="No Data Found", foreground="red")
     else:
         # Retrieve the thumbs up image and display in resultPanel
         img = getImage("images/metadata.png", IMG_WIDTH, IMG_HEIGHT)
@@ -413,19 +413,34 @@ root = Tk()
 root.title("Copy-Move Detector")
 root.iconbitmap('images/favicon.ico')
 
+# Set the background color to match the screenshots (dark blue/black)
+root.configure(background="#0B1C2C")  # Dark blue background
+
+# Define our custom button class with light blue background
+class CustomButton(Button):
+    def __init__(self, parent, **kwargs):
+        Button.__init__(self, parent, **kwargs)
+        self.configure(
+            background="#0B1C2C",  # Light blue background
+            foreground="white",    # White text
+            activebackground="#0099B8",  # Slightly darker blue when clicked
+            activeforeground="white",
+            font=("Times", 15),
+            relief="raised",
+            borderwidth=2,
+            padx=10,
+            pady=5
+        )
+
 # Ensure the program closes when window is closed
 root.protocol("WM_DELETE_WINDOW", root.quit)
 
 # Maximize the size of the window
 root.state("zoomed")
 
-# Add the GUI into the Tkinter window
-# GUI(parent=root)
-
 # Label for the results of scan
-resultLabel = Label(text="IMAGE FORGERY DETECTOR", font=("Courier", 50))
+resultLabel = Label(text="FORGERY DETECTION SYSTEM", font=("Coda Heavy", 45), fg="#00B2D9", bg=root["background"])
 resultLabel.grid(row=0, column=0, columnspan=3)
-# resultLabel.grid(row=0, column=1, columnspan=2)
 
 # Get the blank image
 input_img = getImage("images/input.png", IMG_WIDTH, IMG_HEIGHT)
@@ -433,85 +448,71 @@ middle_img = getImage("images/middle.png", IMG_WIDTH, IMG_HEIGHT)
 output_img = getImage("images/output.png", IMG_WIDTH, IMG_HEIGHT)
 
 # Displays the input image
-imagePanel = Label(image=input_img)
+imagePanel = Label(image=input_img, bg=root["background"])
 imagePanel.image = input_img
 imagePanel.grid(row=1, column=0, padx=5)
 
 # Label to display the middle image
-middle = Label(image=middle_img)
+middle = Label(image=middle_img, bg=root["background"])
 middle.image = middle_img
 middle.grid(row=1, column=1, padx=5)
 
 # Label to display the output image
-resultPanel = Label(image=output_img)
+resultPanel = Label(image=output_img, bg=root["background"])
 resultPanel.image = output_img
 resultPanel.grid(row=1, column=2, padx=5)
 
 # Label to display the path of the input image
-fileLabel = Label(text="No file selected", fg="grey", font=("Times", 15))
+fileLabel = Label(text="No file selected", fg="white", font=("Times", 15), bg=root["background"])
 fileLabel.grid(row=2, column=1)
-# fileLabel.grid(row=2, column=0, columnspan=2)
 
-
-# Progress bar
+# Progress bar - configure for dark theme
 progressBar = ttk.Progressbar(length=500)
 progressBar.grid(row=3, column=1)
-# progressBar.grid(row=3, column=0, columnspan=2)
-
-
-# Configure the style of the buttons
-s = ttk.Style()
-s.configure('my.TButton', font=('Times', 15))
+# Style the progress bar
+style = ttk.Style()
+style.configure("TProgressbar", background="#00B2D9", troughcolor="#0B1C2C")
 
 # Button to upload images
-uploadButton = ttk.Button(
-    text="Upload Image", style="my.TButton", command=browseFile)
+uploadButton = CustomButton(
+    root, text="Upload Image", command=browseFile)
 uploadButton.grid(row=4, column=1, sticky="nsew", pady=5)
-# uploadButton.grid(row=4, column=0, columnspan=2, sticky="nsew", pady=5)
 
 # Button to run the Compression detection algorithm
-compression = ttk.Button(text="Compression-Detection",
-                         style="my.TButton", command=jpeg_Compression)
+compression = CustomButton(root, text="Compression-Detection", command=jpeg_Compression)
 compression.grid(row=5, column=0, columnspan=1, pady=20)
-# startButton.grid(row=5, column=0, columnspan=2, sticky="nsew", pady=5)
 
 # Button to run the Metadata-Analysis detection algorithm
-metadata = ttk.Button(text="Metadata-Analysis",
-                      style="my.TButton", command=metadata_analysis)
+metadata = CustomButton(root, text="Metadata-Analysis", command=metadata_analysis)
 metadata.grid(row=5, column=0, columnspan=2, pady=20)
 
 # Button to run the CFA-artifact detection algorithm
-artifact = ttk.Button(text="CFA-artifact detection", style="my.TButton", command=cfa_artifact)
+artifact = CustomButton(root, text="CFA-artifact detection", command=cfa_artifact)
 artifact.grid(row=5, column=1, columnspan=1, pady=20)
 
 # Button to run the noise variance inconsistency detection algorithm
-noise = ttk.Button(text="noise-inconsistency",
-                   style="my.TButton", command=noise_variance_inconsistency)
+noise = CustomButton(root, text="noise-inconsistency", command=noise_variance_inconsistency)
 noise.grid(row=5, column=1, columnspan=2, pady=20)
 
-# Button to run the Copy-Move  detection algorithm
-copy_move = ttk.Button(text="Copy-Move", style="my.TButton", command=copy_move_forgery)
+# Button to run the Copy-Move detection algorithm
+copy_move = CustomButton(root, text="Copy-Move", command=copy_move_forgery)
 copy_move.grid(row=5, column=2, columnspan=1, pady=20)
 
 # Button to run the Error-Level Analysis algorithm
-ela = ttk.Button(text="Error-Level Analysis", style="my.TButton", command=ela_analysis)
+ela = CustomButton(root, text="Error-Level Analysis", command=ela_analysis)
 ela.grid(row=6, column=0, columnspan=2, pady=5)
 
 # Button to run the Image pixel Analysis algorithm
-image_stegnography = ttk.Button(text="Image-Extraction", style="my.TButton", command=image_decode)
+image_stegnography = CustomButton(root, text="Image-Extraction", command=image_decode)
 image_stegnography.grid(row=6, column=1, pady=5)
 
 # Button to run the String Extraction Analysis algorithm
-String_analysis = ttk.Button(text="String Extraction", style="my.TButton", command=string_analysis)
-String_analysis.grid(row=6, column=1,columnspan=2, pady=5)
+String_analysis = CustomButton(root, text="String Extraction", command=string_analysis)
+String_analysis.grid(row=6, column=1, columnspan=2, pady=5)
 
 # Button to exit the program
-style = ttk.Style()
-style.configure('W.TButton', font = ('calibri', 10, 'bold'),foreground = 'red')
-
-quitButton = ttk.Button(text="Exit program", style = 'W.TButton', command=root.quit)
+quitButton = CustomButton(root, text="Exit program", background="red", command=root.quit)
 quitButton.grid(row=6, column=2, pady=5)
-# quitButton.grid(row=6, column=0, columnspan=2, sticky="e", pady=5)
 
 # Open the GUI
 root.mainloop()
