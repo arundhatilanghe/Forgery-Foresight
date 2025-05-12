@@ -19,7 +19,7 @@ The Forgery Detection System contained in this repository currently features for
 
 Navigate to the **Project** directory:
 ```
-$ cd Image_Manipulation_Detection_System_Python
+$ cd Forgery-Foresight
 ```
 
 Next, run the **detect.py** script, providing the image you wish to evaluate:
